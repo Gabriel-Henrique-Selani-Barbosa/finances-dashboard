@@ -1,48 +1,35 @@
 <template>
-  <div class="login-container">
-    <div class="login-card">
-      <div class="login-header">
-        <h1>Dashboard Financeiro</h1>
-        <p>Faça login para continuar</p>
-      </div>
-      
-      <form @submit.prevent="handleLogin" class="login-form">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            placeholder="Digite seu email"
-            required
-          />
-        </div>
-        
-        <div class="form-group">
-          <label for="password">Senha</label>
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Digite sua senha"
-            required
-          />
-        </div>
-        
-        <button type="submit" :disabled="loading" class="login-button">
-          {{ loading ? 'Entrando...' : 'Entrar' }}
-        </button>
-      </form>
-      
-      <div class="login-footer">
-        <p>Não tem uma conta? <router-link to="/register">Registre-se</router-link></p>
-      </div>
-      
-      <div v-if="error" class="error-message">
-        {{ error }}
-      </div>
+  <form @submit.prevent="handleLogin" class="login-form">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        v-model="email"
+        type="email"
+        placeholder="Digite seu email"
+        required
+      />
     </div>
-  </div>
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input
+        id="password"
+        v-model="password"
+        type="password"
+        placeholder="Digite sua senha"
+        required
+      />
+    </div>
+    <button type="submit" :disabled="loading" class="login-button">
+      {{ loading ? 'Entrando...' : 'Entrar' }}
+    </button>
+    <div class="login-footer">
+      <p>Não tem uma conta? <a href="#" @click.prevent="$emit('switch')">Registre-se</a></p>
+    </div>
+    <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -50,6 +37,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
+const emit = defineEmits(['switch'])
 const router = useRouter()
 const authStore = useAuthStore()
 
@@ -61,7 +49,6 @@ const error = ref('')
 const handleLogin = async () => {
   loading.value = true
   error.value = ''
-  
   try {
     await authStore.login(email.value, password.value)
     router.push('/dashboard')
@@ -74,49 +61,12 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-}
-
-.login-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.login-header h1 {
-  color: #333;
-  margin-bottom: 8px;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.login-header p {
-  color: #666;
-  font-size: 14px;
-}
-
 .login-form {
   margin-bottom: 20px;
 }
-
 .form-group {
   margin-bottom: 20px;
 }
-
 .form-group label {
   display: block;
   margin-bottom: 8px;
@@ -124,7 +74,6 @@ const handleLogin = async () => {
   font-weight: 500;
   font-size: 14px;
 }
-
 .form-group input {
   width: 100%;
   padding: 12px 16px;
@@ -134,12 +83,10 @@ const handleLogin = async () => {
   transition: border-color 0.3s ease;
   box-sizing: border-box;
 }
-
 .form-group input:focus {
   outline: none;
   border-color: #667eea;
 }
-
 .login-button {
   width: 100%;
   padding: 12px;
@@ -152,36 +99,29 @@ const handleLogin = async () => {
   cursor: pointer;
   transition: opacity 0.3s ease;
 }
-
 .login-button:hover:not(:disabled) {
   opacity: 0.9;
 }
-
 .login-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-
 .login-footer {
   text-align: center;
   margin-top: 20px;
 }
-
 .login-footer p {
   color: #666;
   font-size: 14px;
 }
-
 .login-footer a {
   color: #667eea;
   text-decoration: none;
   font-weight: 500;
 }
-
 .login-footer a:hover {
   text-decoration: underline;
 }
-
 .error-message {
   background: #fee;
   color: #c33;

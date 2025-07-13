@@ -21,10 +21,10 @@ onMounted(() => {
       <p>Gerencie suas finanças de forma simples e eficiente</p>
       
       <div class="action-buttons">
-        <router-link to="/login" class="btn btn-primary">
+        <router-link to="/auth" class="btn btn-primary">
           Fazer Login
         </router-link>
-        <router-link to="/register" class="btn btn-secondary">
+        <router-link to="/auth" class="btn btn-secondary">
           Criar Conta
         </router-link>
       </div>
