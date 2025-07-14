@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import { useApi } from '@/composables/useApi'
 
 interface User {
   id: number
@@ -17,16 +17,12 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const token = ref<string | null>(localStorage.getItem('token'))
   const loading = ref(false)
-
-  // Configurar axios com token
-  if (token.value) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
-  }
+  const api = useApi()
 
   const login = async (email: string, password: string) => {
     loading.value = true
     try {
-      const response = await axios.post<LoginResponse>('http://localhost:3000/api/auth/login', {
+      const response = await api.post<LoginResponse>('/api/auth/login', {
         email,
         password
       })
@@ -37,7 +33,6 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = userData
       
       localStorage.setItem('token', newToken)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
       
       return response.data
     } catch (error: any) {
@@ -50,7 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
   const register = async (name: string, email: string, password: string) => {
     loading.value = true
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', {
+      const response = await api.post('/api/auth/register', {
         name,
         email,
         password
@@ -68,7 +63,6 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     token.value = null
     localStorage.removeItem('token')
-    delete axios.defaults.headers.common['Authorization']
   }
 
   const isAuthenticated = () => {
