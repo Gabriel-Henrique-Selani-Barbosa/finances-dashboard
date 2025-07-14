@@ -1,0 +1,6 @@
+export { default as IconBase } from './IconBase.vue'
+export { default as IconHome } from './IconHome.vue'
+export { default as IconWallet } from './IconWallet.vue'
+export { default as IconChart } from './IconChart.vue'
+export { default as IconSettings } from './IconSettings.vue'
+export { default as IconArrow } from './IconArrow.vue' 
