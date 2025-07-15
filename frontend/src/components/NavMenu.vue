@@ -87,6 +87,7 @@ const menuClass = computed(() => {
   }
 
   &.nav-menu--closed {
+    @include desktop {
     width: 80px;
     padding: 0 var(--spacing-100) 0 0;
     
@@ -116,6 +117,7 @@ const menuClass = computed(() => {
         transform: rotate(180deg);
         transition: transform 0.3s ease-in-out;
       }
+    }
     }
   }
 
