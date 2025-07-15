@@ -1,15 +1,13 @@
 import axios from 'axios'
 
-// Configuração base do Axios
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 })
 
-// Interceptor para adicionar token de autenticação
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
@@ -23,16 +21,16 @@ api.interceptors.request.use(
   }
 )
 
-// Interceptor para tratar respostas
 api.interceptors.response.use(
   (response) => {
     return response
   },
   (error) => {
-    // Se receber 401 (não autorizado), limpa o token e redireciona para login
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+      localStorage.removeItem('email')
+      localStorage.removeItem('password')
       window.location.href = '/auth'
     }
     return Promise.reject(error)

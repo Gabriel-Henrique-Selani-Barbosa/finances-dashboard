@@ -1,11 +1,12 @@
 <template>
   <svg
-    :width="finalWidth"
-    :height="finalHeight"
+    :width="width"
+    :height="height"
+    :viewBox="computedViewBox"
+    :fill="fill"
+    :stroke="stroke"
+    :stroke-width="strokeWidth"
     :class="className"
-    :style="{ color: color }"
-    :viewBox="finalViewBox"
-    fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
     <slot />
@@ -16,45 +17,37 @@
 import { computed } from 'vue'
 
 interface Props {
-  size?: number | string
   width?: number | string
   height?: number | string
-  color?: string
-  className?: string
   viewBox?: string
+  fill?: string
+  stroke?: string
+  strokeWidth?: number | string
+  className?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 24,
-  color: 'currentColor',
+  width: 24,
+  height: 24,
+  fill: 'currentColor',
+  stroke: 'none',
+  strokeWidth: 1,
   className: ''
 })
 
-const finalWidth = computed(() => {
-  return props.width || props.size
-})
-
-const finalHeight = computed(() => {
-  return props.height || props.size
-})
-
-const finalViewBox = computed(() => {
-  // Se viewBox foi explicitamente fornecido, usa ele
+const computedViewBox = computed(() => {
   if (props.viewBox) {
     return props.viewBox
   }
-  
-  // Caso contrário, calcula baseado no width e height
-  const width = Number(finalWidth.value)
-  const height = Number(finalHeight.value)
-  
-  // Se width e height são iguais, usa viewBox quadrado
-  if (width === height) {
-    return `0 0 ${width} ${height}`
+
+  const w = typeof props.width === 'number' ? props.width : 24
+  const h = typeof props.height === 'number' ? props.height : 24
+
+  if (w === h) {
+    return `0 0 ${w} ${h}`
   }
-  
-  // Se são diferentes, mantém a proporção
-  return `0 0 ${width} ${height}`
+
+  return `0 0 ${w} ${h}`
 })
 </script>
 

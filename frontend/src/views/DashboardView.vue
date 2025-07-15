@@ -1,33 +1,12 @@
 <template>
-  <div class="dashboard-container">
-    <header class="dashboard-header">
-      <h1>Dashboard Financeiro</h1>
-      <div class="user-info">
-        <span>Olá, {{ user?.name }}</span>
-        <button @click="handleLogout" class="logout-button">Sair</button>
-      </div>
-    </header>
-    
-    <main class="dashboard-content">
-      <div class="welcome-card">
-        <h2>Bem-vindo ao seu Dashboard!</h2>
-        <p>Esta é a área principal onde você poderá gerenciar suas finanças.</p>
-        <p>Funcionalidades em desenvolvimento:</p>
-        <ul>
-          <li>📊 Resumo financeiro</li>
-          <li>💰 Cadastro de transações</li>
-          <li>📈 Gráficos e relatórios</li>
-          <li>🎯 Metas financeiras</li>
-        </ul>
-      </div>
-    </main>
-  </div>
+  <NavMenu />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import NavMenu from '@/components/NavMenu.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()

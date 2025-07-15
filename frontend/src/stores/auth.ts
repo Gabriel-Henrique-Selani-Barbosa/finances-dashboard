@@ -19,6 +19,8 @@ export const useAuthStore = defineStore('auth', () => {
   const loading = ref(false)
   const api = useApi()
 
+  let autoLoginPromise: Promise<void> | null = null
+
   const login = async (email: string, password: string) => {
     loading.value = true
     try {
@@ -33,6 +35,8 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = userData
       
       localStorage.setItem('token', newToken)
+      localStorage.setItem('email', email)
+      localStorage.setItem('password', password)
       
       return response.data
     } catch (error: any) {
@@ -63,11 +67,34 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     token.value = null
     localStorage.removeItem('token')
+    localStorage.removeItem('email')
+    localStorage.removeItem('password')
   }
 
   const isAuthenticated = () => {
     return !!token.value && !!user.value
   }
+
+  const waitForAutoLogin = () => {
+    return autoLoginPromise || Promise.resolve()
+  }
+
+  async function autoLogin() {
+    if (token.value) {
+      const email = localStorage.getItem('email')
+      const password = localStorage.getItem('password')
+      
+      if (email && password) {
+        try {
+          await login(email, password)
+        } catch (error) {
+          console.error('Erro no login automático:', error)
+        }
+      }
+    }
+  }
+
+  autoLoginPromise = autoLogin()
 
   return {
     user,
@@ -76,6 +103,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     register,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    waitForAutoLogin
   }
 }) 

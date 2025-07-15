@@ -18,7 +18,7 @@ const handleRegister = async () => {
   error.value = ''
   try {
     await authStore.register(name.value, email.value, password.value)
-    router.push('/login')
+    router.push('/')
   } catch (err: any) {
     error.value = err.message || 'Erro ao registrar'
   } finally {

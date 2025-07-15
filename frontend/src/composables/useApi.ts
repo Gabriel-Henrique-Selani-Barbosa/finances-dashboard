@@ -11,7 +11,6 @@ export function useApi(): AxiosInstance {
   return api
 }
 
-// Alias para manter consistência
 export function useAxios(): AxiosInstance {
   return useApi()
 } 
