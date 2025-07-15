@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,5 +15,80 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Relations
+  budgets        Budget[]
+  transactions   Transaction[]
+  recurringBills RecurringBill[]
+  pots           Pot[]
+
   @@map("users")
+}
+
+model Budget {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  targetAmount  Decimal  @db.Decimal(10, 2)
+  currentAmount Decimal  @db.Decimal(10, 2) @default(0)
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  transactions Transaction[]
+
+  @@map("budgets")
+}
+
+
+model Transaction {
+  id              String   @id @default(cuid())
+  recipient       String?
+  sender          String?
+  amount          Decimal  @db.Decimal(10, 2)
+  transactionDate DateTime
+
+  budgetName  String?
+  budget      Budget?  @relation(fields: [budgetName], references: [name])
+
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("transactions")
+}
+
+
+model RecurringBill {
+  id          String   @id @default(cuid())
+  billTitle   String
+  amount      Decimal  @db.Decimal(10, 2)
+  dueDate     Int
+  frequency   Frequency
+  month       Int?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("recurring_bills")
+}
+
+model Pot {
+  id            String   @id @default(cuid())
+  name          String
+  targetAmount  Decimal  @db.Decimal(10, 2)
+  currentAmount Decimal  @db.Decimal(10, 2) @default(0)
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("pots")
+}
+
+enum Frequency {
+  MONTHLY
+  YEARLY
 }
