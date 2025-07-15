@@ -1,0 +1,234 @@
+// Mixins para flexbox
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Mixins para responsividade
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 992px) {
+    @content;
+  }
+}
+
+
+// Mixins para botões
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-200) var(--spacing-300);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  min-height: 44px;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: var(--color-grey-200);
+  color: var(--color-text-primary);
+  
+  &:hover:not(:disabled) {
+    background-color: var(--color-grey-300);
+  }
+}
+
+@mixin button-outline {
+  @include button-base;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+}
+
+// Mixins para inputs
+@mixin input-base {
+  width: 100%;
+  padding: var(--spacing-200) var(--spacing-250);
+  border: 2px solid var(--color-grey-300);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  background-color: var(--color-white);
+  transition: border-color var(--transition-normal);
+  min-height: 44px;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  
+  &:disabled {
+    background-color: var(--color-grey-100);
+    cursor: not-allowed;
+  }
+  
+  &::placeholder {
+    color: var(--color-text-disabled);
+  }
+}
+
+// Mixins para cards
+@mixin card-base {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-300);
+  transition: box-shadow var(--transition-normal);
+  
+  &:hover {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+// Mixins para textos
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-truncate-multiline($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Mixins para animações
+@mixin fade-in {
+  animation: fadeIn var(--transition-normal) ease-in-out;
+}
+
+@mixin slide-up {
+  animation: slideUp var(--transition-normal) ease-out;
+}
+
+@mixin slide-down {
+  animation: slideDown var(--transition-normal) ease-out;
+}
+
+// Keyframes para animações
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mixins para acessibilidade
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Mixins para gradientes
+@mixin gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+}
+
+@mixin gradient-secondary {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+} 
