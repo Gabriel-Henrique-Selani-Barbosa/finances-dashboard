@@ -1,14 +1,6 @@
 <template>
-  <IconBase
-    :width="width"
-    :height="height"
-    :viewBox="viewBox"
-    :fill="fill"
-    :stroke="stroke"
-    :stroke-width="strokeWidth"
-    :className="className"
-  >
-    <path d="M7 17L17 7M17 7H7M17 7V17" />
+  <IconBase v-bind="$props">
+    <path d="M4.76531 1.98469L8.51531 5.73469C8.55018 5.76951 8.57784 5.81087 8.59671 5.8564C8.61558 5.90192 8.6253 5.95072 8.6253 6C8.6253 6.04928 8.61558 6.09808 8.59671 6.1436C8.57784 6.18913 8.55018 6.23049 8.51531 6.26531L4.76531 10.0153C4.71287 10.0678 4.64602 10.1036 4.57324 10.1181C4.50046 10.1326 4.42501 10.1251 4.35645 10.0967C4.2879 10.0683 4.22931 10.0202 4.18811 9.95849C4.1469 9.89677 4.12494 9.82421 4.125 9.75L4.125 2.25C4.12494 2.17579 4.1469 2.10323 4.18811 2.04151C4.22931 1.97978 4.2879 1.93167 4.35645 1.90327C4.42501 1.87486 4.50046 1.86743 4.57324 1.88193C4.64602 1.89642 4.71287 1.93218 4.76531 1.98469Z" />
   </IconBase>
 </template>
 
@@ -16,13 +8,12 @@
 import IconBase from './IconBase.vue'
 
 interface Props {
+  size?: number | string
   width?: number | string
   height?: number | string
-  viewBox?: string
-  fill?: string
-  stroke?: string
-  strokeWidth?: number | string
+  color?: string
   className?: string
+  viewBox?: string
 }
 
 defineProps<Props>()
