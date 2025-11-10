@@ -40,7 +40,7 @@ const menuClass = computed(() => {
       <span>Budgets</span>
     </router-link>
     <router-link to="/pots" class="nav-menu-item">
-      <IconPots :size="24" color="#B3B3B3" />
+      <IconPots :size="24" :width="24" :height="24" color="#B3B3B3" />
       <span>Pots</span>
     </router-link>
     <router-link to="/recurring-bills" class="nav-menu-item">
